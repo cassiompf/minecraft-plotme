@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="cmTerrenos:jar">
+    <output-path>$PROJECT_DIR$/../../Servidores/Survival/plugins</output-path>
+    <root id="archive" name="cmTerrenos.jar">
+      <element id="module-output" name="cmTerrenos" />
+    </root>
+  </artifact>
+</component>

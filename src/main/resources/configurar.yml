@@ -1,0 +1,100 @@
+Configuração:
+  mundo_terrenos: "world"
+
+  #Salvar dados em YAML, MYSQL
+  database: "YAML"
+
+  #Caso você use Mysql
+  mysql_host: "localhost"
+  mysql_port: 3306
+  mysql_user: "root"
+  mysql_password: "123"
+  mysql_database: "survival"
+
+  Valores:
+    Nivel_1: 10000
+    Nivel_2: 50000
+    Nivel_3: 100000
+    Nivel_4: 150000
+    Nivel_5: 200000
+
+Mensagens:
+  #Mensagem que irá aparecer quando algum jogador
+  #digitar o comando de ajuda '/terreno help'
+  Comando_Help:
+    - "&aComando de terreno:"
+    - "&a • &f/terreno criar &a- &7Para criar um terreno."
+    - "&a • &f/terreno add <jogador> &a- &7Para adicionar um amigo no terreno."
+    - "&a • &f/terreno remove <jogador> &a- &7Para remover um amigo do terreno."
+    - "&a • &f/terreno upgrade &a- &7Para upar o nível do terreno."
+    - "&a • &f/terreno info &a- &7Para visualizar as informações do seu terreno."
+    - "&a • &f/terreno deny <jogador> &a- &7Proibir algum jogador de entrar no seu terreno."
+    - "&a • &f/terreno tp &a- &7Para teleportar até seu terreno."
+
+  #Mensagem que irá aparecer para a entidade que não for um jogador
+  Somente_Jogador: "&f➜ &cSomente jogadores podem executar esse comando!"
+
+  #Mensagem que irá aparecer para a entidade que não for um jogador
+  Sem_Permissao: "&f➜ &cApenas jogadores &eVIP's &cpodem executar esse comando!"
+
+  #Mensagem que irá aparecer para o jogador quando ele comprar um terreno
+  Terreno_Criado: "&f➜ &cTerreno criado com sucesso!"
+
+  #Mensagem que irá aparecer para o jogador se tiver algum
+  #terreno perto de onde ele estiver querendo comprar
+  Terreno_Perto: "&f➜ &cVocê não pode construir seu terreno aqui pois existe outro terreno próximo de você!"
+
+  #Mensagem que irá aparecer caso o jogador já possua algum terreno
+  Ja_Tem_Terreno: "&f➜ &cVocê já tem um terreno, use '/terreno tp' para ir até seu terreno!"
+
+  #Mensagem que irá aparecer caso o jogador não tiver o
+  #dinheiro necessário para upar/comprar um terreno.
+  Sem_Dinheiro: "&f➜ &cVocê precisa de %m reais para comprar/upar seu terreno!"
+
+  #Mensagem que irá aparecer quando algum jogador
+  #executar o comando de criar/upgrade terreno fora do mundo de terrenos
+  Mundo_Invalido: "&f➜ &cVocê não pode fazer isso nesse mundo!"
+
+  #Mensagem que irá aparecer quando algum jogador
+  #quebrar um bloco em um terreno onde ele não tem permissão
+  Nao_Pode_Quebrar: "&f➜ &cVocê não pode quebrar bloco no terreno do jogador %p!"
+
+  #Mensagem que irá aparecer quando algum jogador
+  #colocar um bloco em um terreno onde ele não tem permissão
+  Nao_Pode_Colocar: "&f➜ &cVocê não pode colocar bloco no terreno do jogador %p!"
+
+  #Mensagem que irá aparecer quando algum jogador
+  #digitar algum comando desconhecido
+  Comando_Desconhecido: "&f➜ &cDigite '/terrenos help' para obter ajuda!"
+
+  #Mensagem que irá aparecer quando algum jogador
+  #interagir com algum bloco em um terreno onde ele não tem permissão
+  Nao_Pode_Interagir: "&f➜ &cVocê não pode interagir com esse bloco no terreno do jogador %p!"
+
+  #Mensagem que irá aparecer quando algum comando
+  #der erro na hora da execução
+  Erro_Executar_Comando: "&f➜ &cOcorreu um erro na hora de executar o comando!"
+
+  #Mensagem que irá aparecer quando algum jogador
+  #tentar usar fly fora do terreno
+  Fora_Terreno_Fly: "&f➜ &cVocê precisa estar dentro do seu terreno para usar fly!"
+
+  #Mensagem que irá aparecer quando algum jogador
+  #teleportar para a casa dele
+  Teleportado: "&f➜ &aTeleportado para sua casa!"
+
+  #Mensagem que irá aparecer quando algum jogador
+  #ativar o fly dentro do seu terreno
+  Fly_Ativado: "&f➜ &cAgora você pode voar dentro do seu terreno!"
+
+  #Mensagem que irá aparecer quando algum jogador
+  #ativar o fly dentro do seu terreno
+  Fly_Desativado: "&f➜ &cO seu fly foi desativado!"
+
+  #Mensagem que irá aparecer quando o jogador digitar
+  #algum comando que precisa ter terreno para ser executado
+  Nao_Tem_Terreno: "&f➜ &cVocê não tem terreno para fazer isso!"
+
+  #Mensagem que enviará para o jogador quando ele
+  #estiver de fly fora do seu terreno
+  Fly_Voltar_Terreno: "&f➜ &cVocê tem &f%s &csegundos para voltar no seu terreno ou seu fly será desativado!"

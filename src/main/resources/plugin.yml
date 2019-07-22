@@ -1,0 +1,9 @@
+name: cmTerrenos
+version: ${project.version}
+main: gmail.fopypvp174.cmterrenos.CmTerrenos
+api-version: 1.13
+authors: [C4ssi0]
+description: Plugin de Terrenos para seu servidor
+commands:
+  terrenos:
+    aliases: [terreno]
