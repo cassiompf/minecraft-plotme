@@ -24,8 +24,6 @@ Mensagens:
   Comando_Help:
     - "&aComando de terreno:"
     - "&a • &f/terreno criar &a- &7Para criar um terreno."
-    - "&a • &f/terreno add <jogador> &a- &7Para adicionar um amigo no terreno."
-    - "&a • &f/terreno remove <jogador> &a- &7Para remover um amigo do terreno."
     - "&a • &f/terreno upgrade &a- &7Para upar o nível do terreno."
     - "&a • &f/terreno amigos adicionar/remover <jogador> &a- &7Para adicionar/remover alguém do terreno."
     - "&a • &f/terreno info &a- &7Para visualizar as informações do seu terreno."

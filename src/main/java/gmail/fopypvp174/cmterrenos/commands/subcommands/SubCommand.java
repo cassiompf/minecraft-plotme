@@ -3,8 +3,6 @@ package gmail.fopypvp174.cmterrenos.commands.subcommands;
 import gmail.fopypvp174.cmterrenos.CmTerrenos;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-
 public abstract class SubCommand {
     /*
     /command <sub-command> args[0] args[1]
@@ -19,7 +17,7 @@ public abstract class SubCommand {
         return cmTerrenos;
     }
 
-    public abstract void onCommand(CommandSender sender, ArrayList<String> args);
+    public abstract void onCommand(CommandSender sender, String[] args);
 
     public abstract String name();
 

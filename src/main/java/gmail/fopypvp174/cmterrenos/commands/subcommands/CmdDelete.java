@@ -3,7 +3,6 @@ package gmail.fopypvp174.cmterrenos.commands.subcommands;
 import gmail.fopypvp174.cmterrenos.CmTerrenos;
 import gmail.fopypvp174.cmterrenos.entities.HouseEntity;
 import org.bukkit.command.CommandSender;
-import java.util.ArrayList;
 
 public class CmdDelete extends SubCommand {
 
@@ -12,20 +11,20 @@ public class CmdDelete extends SubCommand {
     }
 
     @Override
-    public void onCommand(CommandSender sender, ArrayList<String> args) {
+    public void onCommand(CommandSender sender, String[] args) {
         if (!sender.hasPermission("terreno.delete")) {
             sender.sendMessage(getCmTerrenos().getFileConfig().getMessage("Perm_Staff"));
             return;
         }
 
-        if (args.size() != 1) {
+        if (args.length != 1) {
             sender.sendMessage(getCmTerrenos().getFileConfig().getMessage("Comando_Desconhecido"));
             return;
         }
 
-        HouseEntity house = getCmTerrenos().getHouseCache().getHouse(args.get(0));
+        HouseEntity house = getCmTerrenos().getHouseCache().getHouse(args[0]);
         if (house == null) {
-            sender.sendMessage(getCmTerrenos().getFileConfig().getMessage("Player_Sem_Terreno").replace("%p", args.get(0)));
+            sender.sendMessage(getCmTerrenos().getFileConfig().getMessage("Player_Sem_Terreno").replace("%p", args[1]));
             return;
         }
 

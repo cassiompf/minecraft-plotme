@@ -6,7 +6,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class CommandManager implements CommandExecutor {
 
@@ -41,13 +43,13 @@ public class CommandManager implements CommandExecutor {
             return true;
         }
 
-        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(args));
+        String[] newArgs = new String[args.length - 1];
 
-        if (arrayList.size() > 0) {
-            arrayList.remove(0);
+        for (int i = 0; i < args.length - 1; i++) {
+            newArgs[i] = args[i + 1];
         }
         try {
-            subCommand.onCommand(sender, arrayList);
+            subCommand.onCommand(sender, newArgs);
         } catch (Exception ex) {
             sender.sendMessage(cmTerrenos.getFileConfig().getMessage("Erro_Executar_Comando"));
             ex.printStackTrace();

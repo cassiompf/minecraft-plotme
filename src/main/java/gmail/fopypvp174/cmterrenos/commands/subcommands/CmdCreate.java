@@ -11,16 +11,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-
 public class CmdCreate extends SubCommand {
 
     public CmdCreate(CmTerrenos cmTerrenos) {
         super(cmTerrenos);
     }
 
-    public void onCommand(CommandSender sender, ArrayList<String> args) {
-        if (args.size() != 0) {
+    public void onCommand(CommandSender sender, String[] args) {
+        if (args.length != 0) {
             sender.sendMessage(getCmTerrenos().getFileConfig().getMessage("Comando_Desconhecido"));
             return;
         }
@@ -57,7 +55,7 @@ public class CmdCreate extends SubCommand {
 
         getCmTerrenos().getHouseCache().setTerrain(house);
 
-        new Thread(() ->  getCmTerrenos().getDatabaseDAO().setTerrain(house)).start();
+        new Thread(() -> getCmTerrenos().getDatabaseDAO().setTerrain(house)).start();
         ItemStack itemStack = ItemBuilder.create(Material.CARPET, Byte.valueOf((byte) 14));
         Utilidades.setBlockAroundHome(house, itemStack);
         Utilidades.teleportHouse(player, house);

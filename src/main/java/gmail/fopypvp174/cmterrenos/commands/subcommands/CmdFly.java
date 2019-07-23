@@ -8,8 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-
 public class CmdFly extends SubCommand {
 
     public CmdFly(CmTerrenos cmTerrenos) {
@@ -18,8 +16,8 @@ public class CmdFly extends SubCommand {
     }
 
     @Override
-    public void onCommand(CommandSender sender, ArrayList<String> args) {
-        if (args.size() != 0) {
+    public void onCommand(CommandSender sender, String[] args) {
+        if (args.length != 0) {
             sender.sendMessage(getCmTerrenos().getFileConfig().getMessage("Comando_Desconhecido"));
             return;
         }

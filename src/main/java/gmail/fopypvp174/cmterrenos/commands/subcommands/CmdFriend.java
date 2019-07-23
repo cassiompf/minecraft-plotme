@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 public class CmdFriend extends SubCommand {
@@ -16,8 +16,8 @@ public class CmdFriend extends SubCommand {
     }
 
     @Override
-    public void onCommand(CommandSender sender, ArrayList<String> args) {
-        if (args.size() != 2) {
+    public void onCommand(CommandSender sender, String[] args) {
+        if (args.length != 2) {
             sender.sendMessage(getCmTerrenos().getFileConfig().getMessage("Comando_Desconhecido"));
             return;
         }
@@ -35,19 +35,24 @@ public class CmdFriend extends SubCommand {
             return;
         }
         Set<String> friends = house.getFriends();
-        if (args.get(0).equalsIgnoreCase("add") ||
-                args.get(0).equalsIgnoreCase("adicionar")) {
-            if (friends.add(args.get(1))) {
-                player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Amigo_Adicionado").replace("%p", args.get(1)));
+
+        if (friends == null) {
+            friends = new HashSet<>();
+        }
+
+        if (args[0].equalsIgnoreCase("add") ||
+                args[0].equalsIgnoreCase("adicionar")) {
+            if (friends.add(args[1])) {
+                player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Amigo_Adicionado").replace("%p", args[1]));
             } else {
-                player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Amigo_Ja_Adicionado").replace("%p", args.get(1)));
+                player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Amigo_Ja_Adicionado").replace("%p", args[1]));
             }
-        } else if (args.get(0).equalsIgnoreCase("rem") ||
-                args.get(0).equalsIgnoreCase("remover")) {
-            if (friends.remove(args.get(1))) {
-                player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Amigo_Removido").replace("%p", args.get(1)));
+        } else if (args[0].equalsIgnoreCase("rem") ||
+                args[0].equalsIgnoreCase("remover")) {
+            if (friends.remove(args[1])) {
+                player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Amigo_Removido").replace("%p", args[1]));
             } else {
-                player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Amigo_Ja_Removido").replace("%p", args.get(1)));
+                player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Amigo_Ja_Removido").replace("%p", args[1]));
             }
         } else {
             sender.sendMessage(getCmTerrenos().getFileConfig().getMessage("Comando_Desconhecido"));
