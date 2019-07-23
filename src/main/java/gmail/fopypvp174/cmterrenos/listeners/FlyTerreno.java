@@ -38,7 +38,7 @@ public class FlyTerreno implements Listener {
 
         HouseEntity house = Utilidades.getHomeLocation(e.getTo().toVector());
 
-        if (house == null || !house.getDono().equalsIgnoreCase(e.getPlayer().getName()) ||
+        if (house == null || !house.getDono().equals(e.getPlayer().getName()) ||
                 e.getTo().toVector().isInAABB(house.getPositionMin(), house.getPositionMax())) {
             new BukkitRunnable() {
                 boolean fora = true;
@@ -62,7 +62,7 @@ public class FlyTerreno implements Listener {
                     }
                     HouseEntity house = Utilidades.getHomeLocation(player.getLocation().toVector());
                     if (house != null) {
-                        if (house.getDono().equalsIgnoreCase(player.getName())) {
+                        if (house.getDono().equals(player.getName())) {
                             fora = false;
                         }
                     }

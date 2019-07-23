@@ -57,7 +57,7 @@ public class CmdCreate extends SubCommand {
 
         getCmTerrenos().getHouseCache().setTerrain(house);
 
-        getCmTerrenos().getDatabaseDAO().setTerrain(house);
+        new Thread(() ->  getCmTerrenos().getDatabaseDAO().setTerrain(house)).start();
         ItemStack itemStack = ItemBuilder.create(Material.CARPET, Byte.valueOf((byte) 14));
         Utilidades.setBlockAroundHome(house, itemStack);
         Utilidades.teleportHouse(player, house);

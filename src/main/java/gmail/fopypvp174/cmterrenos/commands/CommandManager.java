@@ -22,10 +22,10 @@ public class CommandManager implements CommandExecutor {
         cmTerrenos.getCommand("terrenos").setExecutor(this);
 
         this.commands.add(new CmdCreate(cmTerrenos));
-        this.commands.add(new CmdCoord(cmTerrenos));
         this.commands.add(new CmdHelp(cmTerrenos));
         this.commands.add(new CmdFly(cmTerrenos));
         this.commands.add(new CmdTp(cmTerrenos));
+        this.commands.add(new CmdFriend(cmTerrenos));
     }
 
     @Override

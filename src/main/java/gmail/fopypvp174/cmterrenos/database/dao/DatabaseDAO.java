@@ -8,6 +8,8 @@ public interface DatabaseDAO {
 
     void saveTerrains(Collection<HouseEntity> houses);
 
+    void deleteTerrain(HouseEntity house);
+
     void startTerrains();
 
     void setTerrain(HouseEntity house);

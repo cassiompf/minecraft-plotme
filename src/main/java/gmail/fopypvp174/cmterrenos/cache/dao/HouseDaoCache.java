@@ -128,4 +128,9 @@ public class HouseDaoCache implements HouseDAO {
     public Vector getUpgradeMin(String playerHouse) {
         return houses.get(playerHouse).getUpgradeMin();
     }
+
+    @Override
+    public HouseEntity removeTerrain(String playerHouse) {
+        return houses.remove(playerHouse);
+    }
 }

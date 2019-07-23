@@ -55,6 +55,18 @@ public class DBDaoYAML extends Config implements DatabaseDAO {
     }
 
     @Override
+    public void deleteTerrain(HouseEntity house) {
+        String terreno = "terrenos." + house.getDono();
+        try {
+            getCustomConfig().set(terreno, null);
+            saveConfig();
+            getPlugin().getLogger().info("Terreno deletado do arquivo com sucesso!");
+        } catch (IOException e) {
+            getPlugin().getLogger().info("Erro: " + e.getMessage() + " Método: setTerrain()");
+        }
+    }
+
+    @Override
     public void startTerrains() {
         Set<HouseEntity> houses = new HashSet<>();
         if (getCustomConfig().isConfigurationSection("terrenos")) {

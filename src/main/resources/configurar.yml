@@ -27,6 +27,7 @@ Mensagens:
     - "&a • &f/terreno add <jogador> &a- &7Para adicionar um amigo no terreno."
     - "&a • &f/terreno remove <jogador> &a- &7Para remover um amigo do terreno."
     - "&a • &f/terreno upgrade &a- &7Para upar o nível do terreno."
+    - "&a • &f/terreno amigos adicionar/remover <jogador> &a- &7Para adicionar/remover alguém do terreno."
     - "&a • &f/terreno info &a- &7Para visualizar as informações do seu terreno."
     - "&a • &f/terreno deny <jogador> &a- &7Proibir algum jogador de entrar no seu terreno."
     - "&a • &f/terreno tp &a- &7Para teleportar até seu terreno."
@@ -39,6 +40,10 @@ Mensagens:
 
   #Mensagem que irá aparecer para o jogador quando ele comprar um terreno
   Terreno_Criado: "&f➜ &cTerreno criado com sucesso!"
+
+  #Mensagem que irá aparecer só para quem
+  #não tiver permissões de admin
+  Perm_Staff: "&f➜ &cSomente moderadores podem executar esse comando."
 
   #Mensagem que irá aparecer para o jogador se tiver algum
   #terreno perto de onde ele estiver querendo comprar
@@ -83,6 +88,22 @@ Mensagens:
   #teleportar para a casa dele
   Teleportado: "&f➜ &aTeleportado para sua casa!"
 
+  #Mensagem que irá aparecer quando adicionar algum
+  #jogador do terreno
+  Amigo_Adicionado: "&f➜ &aO jogador %p foi adicionado na sua casa!"
+
+  #Mensagem que irá aparecer quando adicionar algum
+  #jogador que esteja adicionado do terreno
+  Amigo_Ja_Adicionado: "&f➜ &aO jogador %p já foi está adicionado na sua casa!"
+
+  #Mensagem que irá aparecer quando remover algum
+  #jogador do terreno
+  Amigo_Removido: "&f➜ &aO jogador %p foi removido na sua casa!"
+
+  #Mensagem que irá aparecer quando remover algum
+  #jogador que já está removido do terreno
+  Amigo_Ja_Removido: "&f➜ &aO jogador %p já está removido do sua casa!"
+
   #Mensagem que irá aparecer quando algum jogador
   #ativar o fly dentro do seu terreno
   Fly_Ativado: "&f➜ &cAgora você pode voar dentro do seu terreno!"
@@ -94,6 +115,8 @@ Mensagens:
   #Mensagem que irá aparecer quando o jogador digitar
   #algum comando que precisa ter terreno para ser executado
   Nao_Tem_Terreno: "&f➜ &cVocê não tem terreno para fazer isso!"
+
+  Player_Sem_Terreno: "&f➜ &cO jogador %p não tem terreno!"
 
   #Mensagem que enviará para o jogador quando ele
   #estiver de fly fora do seu terreno

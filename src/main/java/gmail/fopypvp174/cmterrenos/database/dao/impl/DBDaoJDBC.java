@@ -43,6 +43,19 @@ public class DBDaoJDBC extends DBConnector implements DatabaseDAO {
     }
 
     @Override
+    public void deleteTerrain(HouseEntity house) {
+        String delete = "DELETE FROM terrenos_data WHERE player = '?';";
+        try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(delete)) {
+            stmt.setString(1, house.getDono());
+            stmt.executeUpdate();
+            getPlugin().getLogger().info("Dados removidos com sucesso!");
+        } catch (SQLException e) {
+            getPlugin().getLogger().info("Erro: " + e.getMessage() + " Método: saveTerrains()");
+        }
+    }
+
+    @Override
     public void setTerrain(HouseEntity house) {
         String insert = "INSERT INTO terrenos_data VALUES ('?', '?', '?', '?', '?', '?', '?', '?');";
         try (Connection conn = getConnection();

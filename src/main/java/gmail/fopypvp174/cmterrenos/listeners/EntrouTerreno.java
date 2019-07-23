@@ -52,7 +52,7 @@ public class EntrouTerreno implements Listener {
         if (e.getFrom().toVector().isInAABB(houseFrom.getPositionMin(), fromMax) &&
                 !e.getTo().toVector().isInAABB(houseTo.getPositionMin(), toMax)) {
             if (inHouse.contains(e.getPlayer().getName())) {
-                if (houseFrom.getDono().equalsIgnoreCase(e.getPlayer().getName())) {
+                if (houseFrom.getDono().equals(e.getPlayer().getName())) {
                     PacketBuilder.sendActionBar(e.getPlayer(), "&eVocê saiu do seu terreno!");
                 } else {
                     PacketBuilder.sendActionBar(e.getPlayer(), "&eVocê saiu do terreno do jogador '&7" + houseFrom.getDono() + "&e'.");
@@ -63,7 +63,7 @@ public class EntrouTerreno implements Listener {
         } else if (!e.getFrom().toVector().isInAABB(houseFrom.getPositionMin(), fromMax) &&
                 e.getTo().toVector().isInAABB(houseTo.getPositionMin(), toMax)) {
             if (!inHouse.contains(e.getPlayer().getName())) {
-                if (houseTo.getDono().equalsIgnoreCase(e.getPlayer().getName())) {
+                if (houseTo.getDono().equals(e.getPlayer().getName())) {
                     PacketBuilder.sendActionBar(e.getPlayer(), "&eVocê entrou no seu terreno!");
                 } else {
                     PacketBuilder.sendActionBar(e.getPlayer(), "&eVocê entrou do terreno do jogador '&7" + houseTo.getDono() + "&e'.");

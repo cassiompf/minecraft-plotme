@@ -24,7 +24,7 @@ public class TerrenoEvents implements Listener {
     public void blockPlace(BlockPlaceEvent e) {
         String worldConfig = plugin.getFileConfig().getWorldTerrain();
         Player player = e.getPlayer();
-        if (!player.getLocation().getWorld().getName().equalsIgnoreCase(worldConfig)) {
+        if (!player.getLocation().getWorld().getName().equals(worldConfig)) {
             return;
         }
 
@@ -39,7 +39,7 @@ public class TerrenoEvents implements Listener {
             }
         }
 
-        if (house.getDono().equalsIgnoreCase(player.getName())) {
+        if (house.getDono().equals(player.getName())) {
             return;
         }
 
@@ -61,7 +61,7 @@ public class TerrenoEvents implements Listener {
     public void blockBreak(BlockBreakEvent e) {
         String worldConfig = plugin.getFileConfig().getWorldTerrain();
         Player player = e.getPlayer();
-        if (!player.getLocation().getWorld().getName().equalsIgnoreCase(worldConfig)) {
+        if (!player.getLocation().getWorld().getName().equals(worldConfig)) {
             return;
         }
 
@@ -76,7 +76,7 @@ public class TerrenoEvents implements Listener {
             }
         }
 
-        if (house.getDono().equalsIgnoreCase(player.getName())) {
+        if (house.getDono().equals(player.getName())) {
             return;
         }
 
@@ -93,7 +93,7 @@ public class TerrenoEvents implements Listener {
     public void playerInteract(PlayerInteractEvent e) {
         String worldConfig = plugin.getFileConfig().getWorldTerrain();
         Player player = e.getPlayer();
-        if (!player.getLocation().getWorld().getName().equalsIgnoreCase(worldConfig)) {
+        if (!player.getLocation().getWorld().getName().equals(worldConfig)) {
             return;
         }
 
@@ -126,7 +126,7 @@ public class TerrenoEvents implements Listener {
             return;
         }
 
-        if (house.getDono().equalsIgnoreCase(player.getName())) {
+        if (house.getDono().equals(player.getName())) {
             return;
         }
 

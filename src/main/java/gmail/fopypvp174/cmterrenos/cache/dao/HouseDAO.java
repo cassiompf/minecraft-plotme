@@ -41,4 +41,7 @@ public interface HouseDAO {
     Vector getUpgradeMax(String playerHouse);
 
     Vector getUpgradeMin(String playerHouse);
+
+    HouseEntity removeTerrain(String playerHouse);
+
 }
