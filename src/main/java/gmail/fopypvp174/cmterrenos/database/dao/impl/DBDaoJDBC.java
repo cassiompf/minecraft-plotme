@@ -25,7 +25,7 @@ public class DBDaoJDBC extends DBConnector implements DatabaseDAO {
 
     @Override
     public void saveTerrains(Collection<HouseEntity> houses) {
-        String update = "UPDATE terrenos_data SET nivel = '?', positionMin = '?', positionMax = '?', amigos = '?' WHERE player = '?'";
+        String update = "UPDATE terrenos_data SET nivel = '?', positionMin = '?', positionMax = '?', amigos = '?' WHERE player = '?' and home = '?';";
         try (Connection conn = getConnection()) {
             for (HouseEntity house : houses) {
                 try (PreparedStatement stmt = conn.prepareStatement(update)) {
@@ -33,6 +33,8 @@ public class DBDaoJDBC extends DBConnector implements DatabaseDAO {
                     stmt.setString(2, Utilidades.serializeLocation(house.getPositionMin()));
                     stmt.setString(3, Utilidades.serializeLocation(house.getPositionMax()));
                     stmt.setString(4, Utilidades.serializeFriends(house.getFriends()));
+                    stmt.setString(5, house.getDono());
+                    stmt.setInt(6, house.getHome());
                     stmt.executeUpdate();
                 }
             }
@@ -44,10 +46,11 @@ public class DBDaoJDBC extends DBConnector implements DatabaseDAO {
 
     @Override
     public void deleteTerrain(HouseEntity house) {
-        String delete = "DELETE FROM terrenos_data WHERE player = '?';";
+        String delete = "DELETE FROM terrenos_data WHERE player = '?' and home = '?';";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(delete)) {
             stmt.setString(1, house.getDono());
+            stmt.setInt(2, house.getHome());
             stmt.executeUpdate();
             getPlugin().getLogger().info("Dados removidos com sucesso!");
         } catch (SQLException e) {
@@ -57,17 +60,18 @@ public class DBDaoJDBC extends DBConnector implements DatabaseDAO {
 
     @Override
     public void setTerrain(HouseEntity house) {
-        String insert = "INSERT INTO terrenos_data VALUES ('?', '?', '?', '?', '?', '?', '?', '?');";
+        String insert = "INSERT INTO terrenos_data VALUES ('?', '?', '?', '?', '?', '?', '?', '?', '?');";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(insert)) {
             stmt.setString(1, house.getDono());
-            stmt.setString(2, house.getWorld());
-            stmt.setInt(3, house.getNivelTerreno());
-            stmt.setString(4, Utilidades.serializeLocation(house.getPositionMin()));
-            stmt.setString(5, Utilidades.serializeLocation(house.getPositionMax()));
-            stmt.setString(6, Utilidades.serializeLocation(house.getUpgradeMin()));
-            stmt.setString(7, Utilidades.serializeLocation(house.getUpgradeMax()));
-            stmt.setString(8, Utilidades.serializeFriends(house.getFriends()));
+            stmt.setInt(2, house.getHome());
+            stmt.setString(3, house.getWorld());
+            stmt.setInt(4, house.getNivelTerreno());
+            stmt.setString(5, Utilidades.serializeLocation(house.getPositionMin()));
+            stmt.setString(6, Utilidades.serializeLocation(house.getPositionMax()));
+            stmt.setString(7, Utilidades.serializeLocation(house.getUpgradeMin()));
+            stmt.setString(8, Utilidades.serializeLocation(house.getUpgradeMax()));
+            stmt.setString(9, Utilidades.serializeFriends(house.getFriends()));
             stmt.executeUpdate();
             getPlugin().getLogger().info("Terreno inserido na tabela com sucesso!");
         } catch (SQLException e) {
@@ -85,6 +89,7 @@ public class DBDaoJDBC extends DBConnector implements DatabaseDAO {
             while (rs.next()) {
                 house = new HouseEntity();
                 house.setDono(rs.getString("player"));
+                house.setHome(rs.getInt("home"));
                 house.setNivelTerreno(rs.getInt("nivel"));
                 house.setWorld(rs.getString("world"));
                 house.setFriends(Utilidades.deserializeFriends(rs.getString("amigos")));

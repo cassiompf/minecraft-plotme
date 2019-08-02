@@ -19,7 +19,7 @@ public class DBDaoYAML extends Config implements DatabaseDAO {
 
     @Override
     public void setTerrain(HouseEntity house) {
-        String terreno = "terrenos." + house.getDono();
+        String terreno = "terrenos." + house.getDono() + "#" + house.getHome();
         try {
             getCustomConfig().set(terreno + ".world", house.getWorld());
             getCustomConfig().set(terreno + ".positionMin", Utilidades.serializeLocation(house.getPositionMin()));
@@ -27,7 +27,7 @@ public class DBDaoYAML extends Config implements DatabaseDAO {
             getCustomConfig().set(terreno + ".upgradeMin", Utilidades.serializeLocation(house.getUpgradeMin()));
             getCustomConfig().set(terreno + ".upgradeMax", Utilidades.serializeLocation(house.getUpgradeMax()));
             getCustomConfig().set(terreno + ".nivel", house.getNivelTerreno());
-            getCustomConfig().set(terreno + ".amigos", house.getFriends());
+            getCustomConfig().set(terreno + ".amigos", Utilidades.serializeFriends(house.getFriends()));
             saveConfig();
             getPlugin().getLogger().info("Terreno inserido no arquivo com sucesso!");
         } catch (IOException e) {
@@ -39,13 +39,14 @@ public class DBDaoYAML extends Config implements DatabaseDAO {
     public void saveTerrains(Collection<HouseEntity> houses) {
         try {
             for (HouseEntity data : houses) {
-                getCustomConfig().set("terrenos." + data.getDono() + ".world", data.getWorld());
-                getCustomConfig().set("terrenos." + data.getDono() + ".positionMin", Utilidades.serializeLocation(data.getPositionMin()));
-                getCustomConfig().set("terrenos." + data.getDono() + ".positionMax", Utilidades.serializeLocation(data.getPositionMax()));
-                getCustomConfig().set("terrenos." + data.getDono() + ".upgradeMin", Utilidades.serializeLocation(data.getUpgradeMin()));
-                getCustomConfig().set("terrenos." + data.getDono() + ".upgradeMax", Utilidades.serializeLocation(data.getUpgradeMax()));
-                getCustomConfig().set("terrenos." + data.getDono() + ".nivel", data.getNivelTerreno());
-                getCustomConfig().set("terrenos." + data.getDono() + ".amigos", data.getFriends());
+                String terreno = "terrenos." + data.getDono() + "#" + data.getHome();
+                getCustomConfig().set(terreno + ".world", data.getWorld());
+                getCustomConfig().set(terreno + ".positionMin", Utilidades.serializeLocation(data.getPositionMin()));
+                getCustomConfig().set(terreno + ".positionMax", Utilidades.serializeLocation(data.getPositionMax()));
+                getCustomConfig().set(terreno + ".upgradeMin", Utilidades.serializeLocation(data.getUpgradeMin()));
+                getCustomConfig().set(terreno + ".upgradeMax", Utilidades.serializeLocation(data.getUpgradeMax()));
+                getCustomConfig().set(terreno + ".nivel", data.getNivelTerreno());
+                getCustomConfig().set(terreno + ".amigos", data.getFriends());
             }
             saveConfig();
             getPlugin().getLogger().info("Dados salvos com sucesso!");
@@ -56,7 +57,7 @@ public class DBDaoYAML extends Config implements DatabaseDAO {
 
     @Override
     public void deleteTerrain(HouseEntity house) {
-        String terreno = "terrenos." + house.getDono();
+        String terreno = "terrenos." + house.getDono() + "#" + house.getHome();
         try {
             getCustomConfig().set(terreno, null);
             saveConfig();
@@ -72,7 +73,10 @@ public class DBDaoYAML extends Config implements DatabaseDAO {
         if (getCustomConfig().isConfigurationSection("terrenos")) {
             for (String name : getCustomConfig().getConfigurationSection("terrenos").getKeys(false)) {
                 HouseEntity house = new HouseEntity();
-                house.setDono(name);
+                String[] casa = name.split("#");
+                house.setDono(casa[0]);
+
+                house.setHome(Integer.parseInt(casa[1]));
 
                 String world = getCustomConfig().getString("terrenos." + name + ".world");
                 house.setWorld(world);

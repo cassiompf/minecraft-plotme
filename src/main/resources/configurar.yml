@@ -17,6 +17,11 @@ Configuração:
     Nivel_3: 100000
     Nivel_4: 150000
     Nivel_5: 200000
+    Nivel_6: 250000
+    Nivel_7: 300000
+    Nivel_8: 350000
+    Nivel_9: 400000
+    Nivel_10: 450000
 
 Mensagens:
   #Mensagem que irá aparecer quando algum jogador
@@ -63,8 +68,16 @@ Mensagens:
   Nao_Pode_Quebrar: "&f➜ &cVocê não pode quebrar bloco no terreno do jogador %p!"
 
   #Mensagem que irá aparecer quando algum jogador
+  #upar o seu terreno com sucesso!
+  Terreno_Upado: "&f➜ &aVocê pagou %m reais para upar o seu terreno para o nível %i."
+
+  #Mensagem que irá aparecer quando algum jogador
   #colocar um bloco em um terreno onde ele não tem permissão
   Nao_Pode_Colocar: "&f➜ &cVocê não pode colocar bloco no terreno do jogador %p!"
+
+  #Mensagem que irá aparecer quando o jogador
+  #tentar upar um terreno já no nível máximo
+  Terreno_Nivel_Maximo: "&f➜ &aO seu terreno já está no nível máximo!"
 
   #Mensagem que irá aparecer quando algum jogador
   #digitar algum comando desconhecido

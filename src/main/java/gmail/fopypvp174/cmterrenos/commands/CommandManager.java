@@ -28,6 +28,7 @@ public class CommandManager implements CommandExecutor {
         this.commands.add(new CmdFly(cmTerrenos));
         this.commands.add(new CmdTp(cmTerrenos));
         this.commands.add(new CmdFriend(cmTerrenos));
+        this.commands.add(new CmdUpgrade(cmTerrenos));
     }
 
     @Override
@@ -45,7 +46,7 @@ public class CommandManager implements CommandExecutor {
 
         String[] newArgs = new String[args.length - 1];
 
-        for (int i = 0; i < args.length - 1; i++) {
+        for (int i = 0; i < newArgs.length; i++) {
             newArgs[i] = args[i + 1];
         }
         try {
@@ -68,9 +69,7 @@ public class CommandManager implements CommandExecutor {
             }
             String[] aliases = sc.aliases();
 
-            int length = aliases.length;
-
-            for (int var5 = 0; var5 < length; var5++) {
+            for (int var5 = 0; var5 < aliases.length; var5++) {
                 String alias = aliases[var5];
 
                 if (name.equalsIgnoreCase(alias)) {

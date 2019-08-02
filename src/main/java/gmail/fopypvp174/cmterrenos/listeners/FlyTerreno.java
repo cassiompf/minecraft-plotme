@@ -16,6 +16,8 @@ import java.util.Set;
 
 public class FlyTerreno implements Listener {
     private static Set<String> isFlying = new HashSet<>();
+    private Set<String> isOutTerrain = new HashSet<>();
+
     private CmTerrenos plugin;
 
     public FlyTerreno(CmTerrenos plugin) {
@@ -39,37 +41,45 @@ public class FlyTerreno implements Listener {
         HouseEntity house = Utilidades.getHomeLocation(e.getTo().toVector());
 
         if (house == null || !house.getDono().equals(e.getPlayer().getName()) ||
-                e.getTo().toVector().isInAABB(house.getPositionMin(), house.getPositionMax())) {
-            new BukkitRunnable() {
-                boolean fora = true;
-                int timer = 8;
+                !e.getTo().toVector().isInAABB(house.getPositionMin(), house.getPositionMax())) {
+            if (!isOutTerrain.contains(e.getPlayer().getName())) {
+                isOutTerrain.add(e.getPlayer().getName());
+                new BukkitRunnable() {
+                    int timer = 8;
 
-                @Override
-                public void run() {
-                    Player player = Bukkit.getPlayer(e.getPlayer().getName());
-                    if (player == null) {
-                        cancel();
-                    } else if (!player.isOnline()) {
-                        cancel();
-                    } else if (!fora) {
-                        cancel();
-                    } else if (timer == 0) {
-                        player.setFlying(false);
-                        player.setAllowFlight(false);
-                        player.sendMessage(plugin.getFileConfig().getMessage("Fly_Desativado"));
-                        isFlying.remove(player.getName());
-                        cancel();
-                    }
-                    HouseEntity house = Utilidades.getHomeLocation(player.getLocation().toVector());
-                    if (house != null) {
-                        if (house.getDono().equals(player.getName())) {
-                            fora = false;
+                    @Override
+                    public void run() {
+                        Player player = Bukkit.getPlayer(e.getPlayer().getName());
+                        if (player == null) {
+                            cancel();
+                            return;
+                        } else if (!player.isOnline()) {
+                            cancel();
+                            return;
+                        } else if (timer == 0) {
+                            player.sendMessage(plugin.getFileConfig().getMessage("Fly_Desativado"));
+                            Bukkit.getScheduler().runTask(plugin, () -> {
+                                player.setFlying(false);
+                                player.setAllowFlight(false);
+                            });
+                            isFlying.remove(player.getName());
+                            isOutTerrain.remove(player.getName());
+                            cancel();
+                            return;
                         }
+                        HouseEntity house = Utilidades.getHomeLocation(player.getLocation().toVector());
+                        if (house != null &&
+                                player.getLocation().toVector().isInAABB(house.getPositionMin(), house.getPositionMax()) &&
+                                house.getDono().equals(player.getName())) {
+                            isOutTerrain.remove(player.getName());
+                            cancel();
+                            return;
+                        }
+                        player.sendMessage(plugin.getFileConfig().getMessage("Fly_Voltar_Terreno").replace("%s", String.valueOf(timer)));
+                        timer--;
                     }
-                    player.sendMessage(plugin.getFileConfig().getMessage("Fly_Voltar_Terreno").replace("%s", String.valueOf(timer)));
-                    timer--;
-                }
-            }.runTaskTimerAsynchronously(plugin, 0L, 20L);
+                }.runTaskTimerAsynchronously(plugin, 0L, 20L);
+            }
         }
     }
 
@@ -79,13 +89,13 @@ public class FlyTerreno implements Listener {
             return;
         }
         HouseEntity house = Utilidades.getHomeLocation(e.getPlayer().getLocation().toVector());
-        if (house == null || !e.getPlayer().getLocation()
-                .toVector().isInAABB(house.getPositionMin(), house.getPositionMax())) {
+        if (house == null ||
+                !e.getPlayer().getLocation().toVector().isInAABB(house.getPositionMin(), house.getPositionMax())) {
             e.getPlayer().sendMessage(plugin.getFileConfig().getMessage("Fora_Terreno_Fly"));
+            e.getPlayer().setFlying(false);
+            e.setCancelled(true);
             return;
         }
-
-        e.getPlayer().sendMessage(plugin.getFileConfig().getMessage("Fora_Terreno_Fly"));
         e.getPlayer().setFlying(true);
         e.getPlayer().setAllowFlight(true);
     }

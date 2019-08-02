@@ -28,31 +28,33 @@ public class CmdFly extends SubCommand {
         }
 
         Player player = Bukkit.getPlayer(sender.getName());
-        if (!player.hasPermission("terrenos.fly") || !player.hasPermission("terrenos.admin")) {
+        if (!player.hasPermission("terrenos.fly") && !player.hasPermission("terrenos.admin")) {
             player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Sem_Permissao"));
+            return;
+        }
+
+        HouseEntity house = Utilidades.getHomeLocation(player.getLocation().toVector());
+
+        if (house == null) {
+            player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Fora_Terreno_Fly"));
+            return;
+        }
+
+        if (!player.getLocation().toVector().isInAABB(house.getPositionMin(), house.getPositionMax())
+                || !house.getDono().equals(player.getName())) {
+            player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Fora_Terreno_Fly"));
             return;
         }
 
         if (FlyTerreno.getIsFlying().contains(player.getName())) {
             player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Fly_Desativado"));
             FlyTerreno.getIsFlying().remove(player.getName());
-            player.setFlying(false);
             player.setAllowFlight(false);
-            return;
+        } else {
+            player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Fly_Ativado"));
+            FlyTerreno.getIsFlying().add(player.getName());
+            player.setAllowFlight(true);
         }
-
-        HouseEntity house = Utilidades.getHomeLocation(player.getLocation().toVector());
-
-        if (player.getLocation().toVector().isInAABB(house.getPositionMin(), house.getPositionMax())
-                || !house.getDono().equalsIgnoreCase(player.getName())) {
-            player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Fora_Terreno_Fly"));
-            return;
-        }
-
-        player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Fly_Ativado"));
-        FlyTerreno.getIsFlying().add(player.getName());
-        player.setFlying(true);
-        player.setAllowFlight(true);
     }
 
     @Override

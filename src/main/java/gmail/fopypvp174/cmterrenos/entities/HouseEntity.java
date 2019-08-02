@@ -3,12 +3,14 @@ package gmail.fopypvp174.cmterrenos.entities;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 public class HouseEntity {
 
     private String dono;
+    private Integer home;
     private String world;
     private Integer nivelTerreno;
     private Vector positionMin;
@@ -23,11 +25,12 @@ public class HouseEntity {
     public void createPlayer(Player player, Vector[] upgrade, Vector[] position) {
         setDono(player.getName());
         setWorld(player.getWorld().getName());
-        setFriends(null);
+        setFriends(new HashSet<>());
         setPositionMin(position[0]);
         setPositionMax(position[1]);
         setUpgradeMin(upgrade[0]);
         setUpgradeMax(upgrade[1]);
+        setHome(1);
         setNivelTerreno(1);
     }
 
@@ -93,6 +96,14 @@ public class HouseEntity {
 
     public void setNivelTerreno(Integer nivelTerreno) {
         this.nivelTerreno = nivelTerreno;
+    }
+
+    public Integer getHome() {
+        return home;
+    }
+
+    public void setHome(Integer home) {
+        this.home = home;
     }
 
     @Override

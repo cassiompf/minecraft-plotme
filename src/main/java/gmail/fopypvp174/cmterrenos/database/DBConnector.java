@@ -28,7 +28,7 @@ public class DBConnector {
         createTable();
     }
 
-    public Connection getConnection() throws SQLException {
+    protected Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             String url = "";
             if (databaseType.equals(DatabaseType.MYSQL)) {
@@ -49,18 +49,21 @@ public class DBConnector {
         return connection;
     }
 
-    public void createTable() {
+    private void createTable() {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
             String sql = "CREATE TABLE IF NOT EXISTS terrenos_data (" +
-                    "player VARCHAR(16) PRIMARY KEY," +
+                    "player VARCHAR(16) NOT NULL," +
+                    "home INT(2) ZEROFILL NOT NULL," +
                     "world VARCHAR(16) NOT NULL," +
                     "nivel INT(1) NOT NULL," +
                     "positionMin TEXT NOT NULL," +
                     "positionMax TEXT NOT NULL," +
                     "upgradeMin TEXT NOT NULL," +
                     "upgradeMax TEXT NOT NULL," +
-                    "amigos TEXT);";
+                    "amigos TEXT," +
+                    "PRIMARY KEY (player, home)" +
+                    ");";
             stmt.execute(sql);
         } catch (SQLException e) {
             getPlugin().getLogger().info("Erro: " + e.getMessage() + " Método: createTable()");

@@ -3,8 +3,6 @@ package gmail.fopypvp174.cmterrenos.listeners;
 import gmail.fopypvp174.cmterrenos.CmTerrenos;
 import gmail.fopypvp174.cmterrenos.api.Utilidades;
 import gmail.fopypvp174.cmterrenos.entities.HouseEntity;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,13 +45,11 @@ public class TerrenoEvents implements Listener {
             return;
         }
 
-        if (e.getBlockPlaced().getLocation().toVector().isInAABB(house.getPositionMin(), house.getPositionMax())) {
-            e.setCancelled(true);
+        if (!e.getBlockPlaced().getLocation().toVector().isInAABB(house.getPositionMin(), house.getPositionMax())) {
             return;
         }
 
         player.sendMessage(plugin.getFileConfig().getMessage("Nao_Pode_Colocar").replace("%p", house.getDono()));
-
         e.setCancelled(true);
     }
 
@@ -84,8 +80,11 @@ public class TerrenoEvents implements Listener {
             return;
         }
 
-        player.sendMessage(plugin.getFileConfig().getMessage("Nao_Pode_Quebrar").replace("%p", house.getDono()));
+        if (!e.getBlock().getLocation().toVector().isInAABB(house.getPositionMin(), house.getPositionMax())) {
+            return;
+        }
 
+        player.sendMessage(plugin.getFileConfig().getMessage("Nao_Pode_Quebrar").replace("%p", house.getDono()));
         e.setCancelled(true);
     }
 
@@ -100,30 +99,16 @@ public class TerrenoEvents implements Listener {
         if (e.getClickedBlock() == null) {
             return;
         }
-        Block block = e.getClickedBlock();
-        if (block.getType() != Material.CHEST &&
-                block.getType() != Material.TRAPPED_CHEST &&
-                block.getType() != Material.PAINTING &&
-                block.getType() != Material.ITEM_FRAME &&
-                block.getType() != Material.FURNACE &&
-                block.getType() != Material.DISPENSER &&
-                block.getType() != Material.HOPPER &&
-                block.getType() != Material.DROPPER &&
-                block.getType() != Material.NOTE_BLOCK &&
-                block.getType() != Material.ARMOR_STAND &&
-                block.getType() != Material.BREWING_STAND &&
-                block.getType() != Material.STANDING_BANNER) {
-            return;
-        }
-
         HouseEntity house = Utilidades.getHomeLocation(e.getClickedBlock().getLocation().toVector());
 
         if (house == null) {
             return;
         }
 
-        if (house.getFriends().contains(player.getName())) {
-            return;
+        if (house.getFriends() != null) {
+            if (house.getFriends().contains(player.getName())) {
+                return;
+            }
         }
 
         if (house.getDono().equals(player.getName())) {

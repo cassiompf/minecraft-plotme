@@ -27,26 +27,30 @@ public class CmdCreate extends SubCommand {
             return;
         }
         Player player = Bukkit.getPlayer(sender.getName());
-        if (!getCmTerrenos().getFileConfig().getWorldTerrain().equalsIgnoreCase(player.getLocation().getWorld().getName())) {
-            player.sendMessage(super.getCmTerrenos().getFileConfig().getMessage("Mundo_Invalido"));
-            return;
-        }
-        Integer priceUpgrade = getCmTerrenos().getFileConfig().getPrecoNivel(1);
-        Double playerMoney = Double.valueOf(getCmTerrenos().getEcon().getBalance(player));
 
-        if (playerMoney.doubleValue() < priceUpgrade.intValue()) {
-            player.sendMessage(super.getCmTerrenos().getFileConfig().getMessage("Sem_Dinheiro").replace("%m", String.valueOf(priceUpgrade)));
-            return;
-        }
         if (super.getCmTerrenos().getHouseCache().hasTerreno(player.getName())) {
             player.sendMessage(super.getCmTerrenos().getFileConfig().getMessage("Ja_Tem_Terreno"));
             return;
         }
+
+        if (!getCmTerrenos().getFileConfig().getWorldTerrain().equalsIgnoreCase(player.getLocation().getWorld().getName())) {
+            player.sendMessage(super.getCmTerrenos().getFileConfig().getMessage("Mundo_Invalido"));
+            return;
+        }
+        int priceUpgrade = getCmTerrenos().getFileConfig().getPrecoNivel(1);
+        double playerMoney = getCmTerrenos().getEcon().getBalance(player);
+
+        if (playerMoney < priceUpgrade) {
+            player.sendMessage(super.getCmTerrenos().getFileConfig().getMessage("Sem_Dinheiro").replace("%m", String.valueOf(priceUpgrade)));
+            return;
+        }
+
         if (Utilidades.getHomeLocation(player.getLocation().toVector()) != null) {
             player.sendMessage(super.getCmTerrenos().getFileConfig().getMessage("Terreno_Perto"));
             return;
         }
 
+        getCmTerrenos().getEcon().withdrawPlayer(player, priceUpgrade);
         Vector[] upgrade = Utilidades.calculeUpgrade(player.getLocation().toVector());
         Vector[] position = Utilidades.calculePosition(upgrade[0], 1);
 
@@ -56,7 +60,7 @@ public class CmdCreate extends SubCommand {
         getCmTerrenos().getHouseCache().setTerrain(house);
 
         new Thread(() -> getCmTerrenos().getDatabaseDAO().setTerrain(house)).start();
-        ItemStack itemStack = ItemBuilder.create(Material.CARPET, Byte.valueOf((byte) 14));
+        ItemStack itemStack = ItemBuilder.create(Material.FENCE, (byte) 14);
         Utilidades.setBlockAroundHome(house, itemStack);
         Utilidades.teleportHouse(player, house);
         player.sendMessage(super.getCmTerrenos().getFileConfig().getMessage("Terreno_Criado"));

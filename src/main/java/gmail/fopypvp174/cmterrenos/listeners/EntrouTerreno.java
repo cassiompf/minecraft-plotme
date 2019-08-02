@@ -25,9 +25,7 @@ public class EntrouTerreno implements Listener {
     public void playerMove(PlayerMoveEvent e) {
 
         if (!e.getTo().getWorld().getName().equalsIgnoreCase(plugin.getFileConfig().getWorldTerrain())) {
-            if (inHouse.contains(e.getPlayer().getName())) {
-                inHouse.remove(e.getPlayer().getName());
-            }
+            inHouse.remove(e.getPlayer().getName());
             return;
         }
 
@@ -37,38 +35,39 @@ public class EntrouTerreno implements Listener {
         }
 
         HouseEntity houseTo = Utilidades.getHomeLocation(e.getTo().toVector());
-        HouseEntity houseFrom = Utilidades.getHomeLocation(e.getFrom().toVector());
 
-        if (houseTo == null || houseFrom == null) {
-            return;
+        if (houseTo != null) {
+            Vector toMax = new Vector(houseTo.getPositionMax().getBlockX() + 1,
+                    houseTo.getPositionMax().getBlockY(), houseTo.getPositionMax().getBlockZ() + 1);
+
+            if (e.getTo().toVector().isInAABB(houseTo.getPositionMin(), toMax)) {
+                if (!inHouse.contains(e.getPlayer().getName())) {
+                    if (houseTo.getDono().equals(e.getPlayer().getName())) {
+                        PacketBuilder.sendActionBar(e.getPlayer(), "&eVocê entrou no seu terreno!");
+                    } else {
+                        PacketBuilder.sendActionBar(e.getPlayer(), "&eVocê entrou do terreno do jogador '&7" + houseTo.getDono() + "&e'.");
+                    }
+                    inHouse.add(e.getPlayer().getName());
+                    return;
+                }
+            }
         }
 
-        Vector fromMax = new Vector(houseFrom.getPositionMax().getBlockX() + 1,
-                houseFrom.getPositionMax().getBlockY(), houseFrom.getPositionMax().getBlockZ() + 1);
+        HouseEntity houseFrom = Utilidades.getHomeLocation(e.getFrom().toVector());
 
-        Vector toMax = new Vector(houseTo.getPositionMax().getBlockX() + 1,
-                houseTo.getPositionMax().getBlockY(), houseTo.getPositionMax().getBlockZ() + 1);
+        if (houseFrom != null) {
+            Vector fromMax = new Vector(houseFrom.getPositionMax().getBlockX() + 1,
+                    houseFrom.getPositionMax().getBlockY(), houseFrom.getPositionMax().getBlockZ() + 1);
 
-        if (e.getFrom().toVector().isInAABB(houseFrom.getPositionMin(), fromMax) &&
-                !e.getTo().toVector().isInAABB(houseTo.getPositionMin(), toMax)) {
-            if (inHouse.contains(e.getPlayer().getName())) {
-                if (houseFrom.getDono().equals(e.getPlayer().getName())) {
-                    PacketBuilder.sendActionBar(e.getPlayer(), "&eVocê saiu do seu terreno!");
-                } else {
-                    PacketBuilder.sendActionBar(e.getPlayer(), "&eVocê saiu do terreno do jogador '&7" + houseFrom.getDono() + "&e'.");
+            if (!e.getTo().toVector().isInAABB(houseFrom.getPositionMin(), fromMax)) {
+                if (inHouse.contains(e.getPlayer().getName())) {
+                    if (houseFrom.getDono().equals(e.getPlayer().getName())) {
+                        PacketBuilder.sendActionBar(e.getPlayer(), "&eVocê saiu do seu terreno!");
+                    } else {
+                        PacketBuilder.sendActionBar(e.getPlayer(), "&eVocê saiu do terreno do jogador '&7" + houseFrom.getDono() + "&e'.");
+                    }
+                    inHouse.remove(e.getPlayer().getName());
                 }
-                inHouse.remove(e.getPlayer().getName());
-            }
-            return;
-        } else if (!e.getFrom().toVector().isInAABB(houseFrom.getPositionMin(), fromMax) &&
-                e.getTo().toVector().isInAABB(houseTo.getPositionMin(), toMax)) {
-            if (!inHouse.contains(e.getPlayer().getName())) {
-                if (houseTo.getDono().equals(e.getPlayer().getName())) {
-                    PacketBuilder.sendActionBar(e.getPlayer(), "&eVocê entrou no seu terreno!");
-                } else {
-                    PacketBuilder.sendActionBar(e.getPlayer(), "&eVocê entrou do terreno do jogador '&7" + houseTo.getDono() + "&e'.");
-                }
-                inHouse.add(e.getPlayer().getName());
             }
         }
     }

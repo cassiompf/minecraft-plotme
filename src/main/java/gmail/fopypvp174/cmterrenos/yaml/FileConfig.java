@@ -14,8 +14,7 @@ public class FileConfig extends Config {
     }
 
     public String getMessage(String args) {
-        String mensagem = ChatColor.translateAlternateColorCodes('&', getCustomConfig().getString("Mensagens." + args));
-        return mensagem;
+        return ChatColor.translateAlternateColorCodes('&', getCustomConfig().getString("Mensagens." + args));
     }
 
     public List<String> getMessageList(String args) {
@@ -129,10 +128,6 @@ public class FileConfig extends Config {
      * -1 quando não encontrar algum valor na config
      */
     public Integer getPrecoNivel(int nivelTerreno) {
-        Integer valor;
-        if ((valor = getCustomConfig().getInt("Configuração.Valores.Nivel_" + nivelTerreno)) != null) {
-            return valor;
-        }
-        return -1;
+        return getCustomConfig().getInt("Configuração.Valores.Nivel_" + nivelTerreno);
     }
 }
