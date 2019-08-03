@@ -11,6 +11,10 @@ Configuração:
   mysql_password: "123"
   mysql_database: "survival"
 
+  # Quando ativado o pvp é ativado
+  # a noite e desativado durante o dia
+  pvpDayNight: true
+
   Valores:
     Nivel_1: 10000
     Nivel_2: 50000
@@ -24,6 +28,18 @@ Configuração:
     Nivel_10: 450000
 
 Mensagens:
+  PvP_Ativado:
+    - " "
+    - "&cAgora está de noite!"
+    - "&4PvP foi ativado, tome cuidado!"
+    - " "
+
+  PvP_Desativado:
+    - " "
+    - "&aAgora está de dia!"
+    - "&7O PvP foi desativado, pode ficar tranquilo!"
+    - " "
+
   #Mensagem que irá aparecer quando algum jogador
   #digitar o comando de ajuda '/terreno help'
   Comando_Help:

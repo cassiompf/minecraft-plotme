@@ -4,7 +4,6 @@ import gmail.fopypvp174.cmterrenos.CmTerrenos;
 import org.bukkit.ChatColor;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FileConfig extends Config {
@@ -17,13 +16,20 @@ public class FileConfig extends Config {
         return ChatColor.translateAlternateColorCodes('&', getCustomConfig().getString("Mensagens." + args));
     }
 
-    public List<String> getMessageList(String args) {
-        List<String> mensagens = new ArrayList<>();
+    private String colorText(List<String> lines){
+        return colorText(String.join("\n", lines));
+    }
 
-        for (String mensagem : getCustomConfig().getStringList("Mensagens." + args)) {
-            mensagens.add(ChatColor.translateAlternateColorCodes('&', mensagem));
-        }
-        return mensagens;
+    private String colorText(String input){
+        return ChatColor.translateAlternateColorCodes('&', input);
+    }
+
+    public String getMessageList(String args) {
+        return colorText(getCustomConfig().getStringList("Mensagens." + args));
+    }
+
+    public boolean isPvPActived() {
+        return getCustomConfig().getBoolean("Configuração.pvpDayNight");
     }
 
     public String getWorldTerrain() {

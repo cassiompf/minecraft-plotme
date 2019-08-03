@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class TerrenoEvents implements Listener {
@@ -92,6 +93,7 @@ public class TerrenoEvents implements Listener {
     public void playerInteract(PlayerInteractEvent e) {
         String worldConfig = plugin.getFileConfig().getWorldTerrain();
         Player player = e.getPlayer();
+
         if (!player.getLocation().getWorld().getName().equals(worldConfig)) {
             return;
         }
@@ -121,5 +123,29 @@ public class TerrenoEvents implements Listener {
         player.sendMessage(plugin.getFileConfig().getMessage("Nao_Pode_Interagir").replace("%p", house.getDono()));
 
         e.setCancelled(true);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void pvpTimeDayNight(EntityDamageByEntityEvent e) {
+
+        if (!plugin.getFileConfig().isPvPActived()) {
+            return;
+        }
+        String worldConfig = plugin.getFileConfig().getWorldTerrain();
+
+        if (!e.getEntity().getLocation().getWorld().getName().equals(worldConfig) &&
+                !e.getDamager().getLocation().getWorld().getName().equals(worldConfig)) {
+            return;
+        }
+
+        if (!(e.getEntity() instanceof Player) && !(e.getEntity() instanceof Player)) {
+            return;
+        }
+
+        if (plugin.isPvpEnable()) {
+            e.setCancelled(false);
+        } else {
+            e.setCancelled(true);
+        }
     }
 }

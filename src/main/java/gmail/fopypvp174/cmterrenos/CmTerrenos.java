@@ -13,6 +13,7 @@ import gmail.fopypvp174.cmterrenos.listeners.TerrenoEvents;
 import gmail.fopypvp174.cmterrenos.yaml.FileConfig;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,6 +23,7 @@ public final class CmTerrenos extends JavaPlugin {
     private Economy econ;
     private DatabaseDAO databaseDAO;
     private HouseDaoCache houseCache;
+    boolean pvpEnable = false;
 
     @Override
     public void onEnable() {
@@ -51,11 +53,32 @@ public final class CmTerrenos extends JavaPlugin {
                 this);
         getServer().getPluginManager().registerEvents(new FlyTerreno(this), this);
         getServer().getPluginManager().registerEvents(new EntrouTerreno(this), this);
+
+        if (fileConfig.isPvPActived()) {
+            startTimer();
+        }
     }
 
     @Override
     public void onDisable() {
         new Thread(() -> databaseDAO.saveTerrains(getHouseCache().getAllHouses())).start();
+    }
+
+    private void startTimer() {
+        World world = getServer().getWorld(fileConfig.getWorldTerrain());
+        world.setTime(0L);
+
+        Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, () -> {
+            if (!pvpEnable && world.getTime() >= 13000) {
+                pvpEnable = true;
+                Bukkit.broadcastMessage(fileConfig.getMessageList("PvP_Ativado"));
+
+            } else if (pvpEnable && world.getTime() < 13000) {
+                Bukkit.broadcastMessage(fileConfig.getMessageList("PvP_Desativado"));
+
+                pvpEnable = false;
+            }
+        }, 0L, 20 * 5);
     }
 
     private boolean setupVault() {
@@ -81,5 +104,9 @@ public final class CmTerrenos extends JavaPlugin {
 
     public DatabaseDAO getDatabaseDAO() {
         return databaseDAO;
+    }
+
+    public boolean isPvpEnable() {
+        return pvpEnable;
     }
 }
