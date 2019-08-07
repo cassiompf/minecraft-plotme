@@ -4,13 +4,17 @@ import gmail.fopypvp174.cmterrenos.entities.HouseEntity;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 public interface HouseDAO {
 
     void setTerrain(HouseEntity houseEntity);
 
-    HouseEntity getHouse(String player);
+    HouseEntity getHouseLoc(Vector vector);
+
+    HouseEntity getHouseHome(String player, Integer home);
+
+    long amountTerrain(String playerName);
 
     Collection<HouseEntity> getAllHouses();
 
@@ -18,9 +22,7 @@ public interface HouseDAO {
 
     String getWorldHouse(String playerName);
 
-    Integer getNivelTerreno(String playerName);
-
-    Set<String> getAllFriends(String owner);
+    List<String> getAllFriends(String owner);
 
     boolean removeFriend(String owner, String friend);
 
@@ -42,6 +44,6 @@ public interface HouseDAO {
 
     Vector getUpgradeMin(String playerHouse);
 
-    HouseEntity removeTerrain(String playerHouse);
+    HouseEntity removeTerrain(HouseEntity house);
 
 }

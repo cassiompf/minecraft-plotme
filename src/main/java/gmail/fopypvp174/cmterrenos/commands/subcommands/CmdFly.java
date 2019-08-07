@@ -17,41 +17,46 @@ public class CmdFly extends SubCommand {
 
     @Override
     public void onCommand(CommandSender sender, String[] args) {
-        if (args.length != 0) {
-            sender.sendMessage(getCmTerrenos().getFileConfig().getMessage("Comando_Desconhecido"));
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Somente_Jogador"));
             return;
         }
 
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(super.getCmTerrenos().getFileConfig().getMessage("Somente_Jogador"));
+        if (args.length != 0) {
+            sender.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Comando_Desconhecido"));
             return;
         }
 
         Player player = Bukkit.getPlayer(sender.getName());
-        if (!player.hasPermission("terrenos.fly") && !player.hasPermission("terrenos.admin")) {
-            player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Sem_Permissao"));
+        if (!player.hasPermission("terrenos.fly")
+                && !player.hasPermission("terrenos.admin")) {
+            player.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Sem_Permissao"));
             return;
         }
 
-        HouseEntity house = Utilidades.getHomeLocation(player.getLocation().toVector());
+        HouseEntity house = Utilidades.getHomeLocation(player
+                .getLocation().toVector());
 
-        if (house == null) {
-            player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Fora_Terreno_Fly"));
-            return;
-        }
-
-        if (!player.getLocation().toVector().isInAABB(house.getPositionMin(), house.getPositionMax())
-                || !house.getDono().equals(player.getName())) {
-            player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Fora_Terreno_Fly"));
+        if (house == null ||
+                !player.getLocation().toVector().isInAABB(house
+                        .getPositionMin(), house.getPositionMax()) ||
+                !house.getDono().equals(player.getName())) {
+            player.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Fora_Terreno_Fly"));
             return;
         }
 
         if (FlyTerreno.getIsFlying().contains(player.getName())) {
-            player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Fly_Desativado"));
+            player.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Fly_Desativado"));
             FlyTerreno.getIsFlying().remove(player.getName());
             player.setAllowFlight(false);
         } else {
-            player.sendMessage(getCmTerrenos().getFileConfig().getMessage("Fly_Ativado"));
+            player.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Fly_Ativado"));
             FlyTerreno.getIsFlying().add(player.getName());
             player.setAllowFlight(true);
         }

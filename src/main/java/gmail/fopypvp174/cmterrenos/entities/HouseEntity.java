@@ -3,9 +3,8 @@ package gmail.fopypvp174.cmterrenos.entities;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class HouseEntity {
 
@@ -17,15 +16,27 @@ public class HouseEntity {
     private Vector positionMax;
     private Vector upgradeMin;
     private Vector upgradeMax;
-    private Set<String> friends;
+    private List<String> friends;
 
     public HouseEntity() {
+    }
+
+    public void createSpawnProtect(Player player, Vector[] upgrade) {
+        setDono("spawn-protect");
+        setWorld(player.getWorld().getName());
+        setFriends(null);
+        setPositionMin(null);
+        setPositionMax(null);
+        setUpgradeMin(upgrade[0]);
+        setUpgradeMax(upgrade[1]);
+        setHome(1);
+        setNivelTerreno(1);
     }
 
     public void createPlayer(Player player, Vector[] upgrade, Vector[] position) {
         setDono(player.getName());
         setWorld(player.getWorld().getName());
-        setFriends(new HashSet<>());
+        setFriends(null);
         setPositionMin(position[0]);
         setPositionMax(position[1]);
         setUpgradeMin(upgrade[0]);
@@ -74,11 +85,11 @@ public class HouseEntity {
         this.upgradeMax = upgradeMax;
     }
 
-    public Set<String> getFriends() {
+    public List<String> getFriends() {
         return friends;
     }
 
-    public void setFriends(Set<String> friends) {
+    public void setFriends(List<String> friends) {
         this.friends = friends;
     }
 
@@ -111,11 +122,12 @@ public class HouseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         HouseEntity that = (HouseEntity) o;
-        return dono.equals(that.dono);
+        return Objects.equals(dono, that.dono) &&
+                Objects.equals(home, that.home);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(dono);
+        return Objects.hash(dono, home);
     }
 }

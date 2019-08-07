@@ -16,11 +16,11 @@ public class FileConfig extends Config {
         return ChatColor.translateAlternateColorCodes('&', getCustomConfig().getString("Mensagens." + args));
     }
 
-    private String colorText(List<String> lines){
+    private String colorText(List<String> lines) {
         return colorText(String.join("\n", lines));
     }
 
-    private String colorText(String input){
+    private String colorText(String input) {
         return ChatColor.translateAlternateColorCodes('&', input);
     }
 

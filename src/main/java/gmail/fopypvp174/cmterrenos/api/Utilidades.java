@@ -10,7 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 public class Utilidades {
 
@@ -104,12 +107,18 @@ public class Utilidades {
     }
 
     public static String serializeLocation(Vector l) {
+        if (l == null) {
+            return "";
+        }
         return l.getBlockX() + ","
                 + l.getBlockY() + ","
                 + l.getBlockZ();
     }
 
     public static Vector deserializeLocation(String s) {
+        if (s.isEmpty()) {
+            return null;
+        }
         String[] location = s.split(",");
         return new Vector(
                 Integer.parseInt(location[0]),
@@ -117,15 +126,17 @@ public class Utilidades {
                 Integer.parseInt(location[2]));
     }
 
-    public static Set<String> deserializeFriends(String friends) {
+    public static List<String> deserializeFriends(String friends) {
         if (friends == null || friends.equals("")) {
             return null;
         }
-        String[] location = friends.split(",");
-        return new HashSet<>(Arrays.asList(location));
+        return Arrays.asList(friends.split(","));
     }
 
-    public static String serializeFriends(Set<String> friends) {
+    public static String serializeFriends(List<String> friends) {
+        if (friends == null || friends.isEmpty()) {
+            return "";
+        }
         return String.join(",", friends);
     }
 

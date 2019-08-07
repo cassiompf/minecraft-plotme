@@ -29,6 +29,9 @@ public class CommandManager implements CommandExecutor {
         this.commands.add(new CmdTp(cmTerrenos));
         this.commands.add(new CmdFriend(cmTerrenos));
         this.commands.add(new CmdUpgrade(cmTerrenos));
+        this.commands.add(new CmdProtect(cmTerrenos));
+        this.commands.add(new CmdDelete(cmTerrenos));
+        this.commands.add(new CmdConvert(cmTerrenos));
     }
 
     @Override

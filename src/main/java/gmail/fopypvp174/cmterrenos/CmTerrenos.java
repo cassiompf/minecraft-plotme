@@ -19,11 +19,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class CmTerrenos extends JavaPlugin {
 
+    boolean pvpEnable = false;
     private FileConfig fileConfig;
     private Economy econ;
     private DatabaseDAO databaseDAO;
     private HouseDaoCache houseCache;
-    boolean pvpEnable = false;
+    private MysqlEntity mysqlEntity = new MysqlEntity();
 
     @Override
     public void onEnable() {
@@ -32,21 +33,19 @@ public final class CmTerrenos extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
         }
         fileConfig = new FileConfig(this, "configurar.yml");
+        mysqlEntity.setDatabase(fileConfig.getMysqlDatabase());
+        mysqlEntity.setHost(fileConfig.getMysqlHost());
+        mysqlEntity.setPort(fileConfig.getMysqlPort());
+        mysqlEntity.setUser(fileConfig.getMysqlUser());
+        mysqlEntity.setPassword(fileConfig.getMysqlPassword());
         if (fileConfig.getDatabase().equalsIgnoreCase("YAML")) {
             databaseDAO = new DBDaoYAML(this, "terrenos_data.yml");
         } else if (fileConfig.getDatabase().equalsIgnoreCase("SQLITE")) {
             databaseDAO = new DBDaoJDBC(DatabaseType.SQLITE, this);
         } else if (fileConfig.getDatabase().equalsIgnoreCase("MYSQL")) {
-            MysqlEntity mysqlEntity = new MysqlEntity();
-            mysqlEntity.setDatabase(fileConfig.getMysqlDatabase());
-            mysqlEntity.setHost(fileConfig.getMysqlHost());
-            mysqlEntity.setPort(fileConfig.getMysqlPort());
-            mysqlEntity.setUser(fileConfig.getMysqlUser());
-            mysqlEntity.setPassword(fileConfig.getMysqlPassword());
             databaseDAO = new DBDaoJDBC(DatabaseType.MYSQL, mysqlEntity, this);
         }
-        houseCache = new HouseDaoCache();
-        new Thread(() -> databaseDAO.startTerrains()).start();
+        houseCache = new HouseDaoCache(databaseDAO);
 
         new CommandManager(this).setup();
         getServer().getPluginManager().registerEvents(new TerrenoEvents(this),
@@ -108,5 +107,9 @@ public final class CmTerrenos extends JavaPlugin {
 
     public boolean isPvpEnable() {
         return pvpEnable;
+    }
+
+    public MysqlEntity getMysqlEntity() {
+        return mysqlEntity;
     }
 }

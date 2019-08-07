@@ -1,7 +1,7 @@
 Configuração:
   mundo_terrenos: "world"
 
-  #Salvar dados em YAML, MYSQL
+  #Salvar dados em YAML, MYSQL, SQLITE
   database: "YAML"
 
   #Caso você use Mysql
@@ -30,15 +30,19 @@ Configuração:
 Mensagens:
   PvP_Ativado:
     - " "
-    - "&cAgora está de noite!"
-    - "&4PvP foi ativado, tome cuidado!"
+    - "&f➜ &cAgora está de noite!"
+    - "&f➜ &4PvP foi ativado, tome cuidado!"
     - " "
 
   PvP_Desativado:
     - " "
-    - "&aAgora está de dia!"
-    - "&7O PvP foi desativado, pode ficar tranquilo!"
+    - "&f➜ &aAgora está de dia!"
+    - "&f➜ &7O PvP foi desativado, pode ficar tranquilo!"
     - " "
+
+  Convert_Mysql_to_Yaml: "&aDatabase convertida com sucesso! Mysql para Yaml"
+
+  Convert_Yaml_to_Mysql: "&aDatabase convertida com sucesso! YAML para Mysql"
 
   #Mensagem que irá aparecer quando algum jogador
   #digitar o comando de ajuda '/terreno help'
@@ -49,13 +53,40 @@ Mensagens:
     - "&a • &f/terreno amigos adicionar/remover <jogador> &a- &7Para adicionar/remover alguém do terreno."
     - "&a • &f/terreno info &a- &7Para visualizar as informações do seu terreno."
     - "&a • &f/terreno deny <jogador> &a- &7Proibir algum jogador de entrar no seu terreno."
-    - "&a • &f/terreno tp &a- &7Para teleportar até seu terreno."
+    - "&a • &f/terreno tp <numero-terreno> &a- &7Para teleportar até seu terreno."
+
+  #Mensagem que irá aparecer quando algum moderador
+  #digitar o comando de ajuda '/terreno help'
+  Comando_Help_Admin:
+    - "&4 • &c/terreno protect &a- &7Para proteger o spawn do servidor."
+    - "&4 • &c/terreno delete &a- &7Para deletar algum terreno."
+    - "&4 • &c/terreno converter <mysql/yaml> <mysql/yaml> &a- &7Para converter as databases."
 
   #Mensagem que irá aparecer para a entidade que não for um jogador
   Somente_Jogador: "&f➜ &cSomente jogadores podem executar esse comando!"
 
-  #Mensagem que irá aparecer para a entidade que não for um jogador
+  #Mensagem que irá aparecer quando o jogador não usar
+  #números quando algum comando pedir
+  Somente_Numeros: "&f➜ &cVocê deve informar apenas números!"
+
+  #Mensagem que irá aparecer quando
+  #algum moderador usar o comando /terreno proteger
+  #para proteger o spawn do servidor
+  Spawn_Protegido: "&f➜ &aUma área 100x100 foi protegida!"
+
+
+  #Mensagem que irá aparecer quando algum moderador tentar
+  #proteger o spawn em uma região que algum jogador já está utilizando
+  Nao_Pode_Proteger_Spawn_Aqui: "&f➜ &aVocê não pode proteger o spawn aqui pois essa região já está protegida!"
+
+  #Mensagem que irá aparecer quando o jogador não tiver permissão de vip
   Sem_Permissao: "&f➜ &cApenas jogadores &eVIP's &cpodem executar esse comando!"
+
+  #Mensagem que irá aparecer quando o jogador não tiver permissão de moderador
+  Sem_Permissao_Staff: "&f➜ &cApenas moderadores podem executar esse comando!"
+
+  #Mensagem que irá aparecer quando o jogador atingir a quantidade máxima de terrenos
+  Qnt_Maxima_Terrenos: "&f➜ &cVocê já atingiu a quantidade máxima de terrenos!"
 
   #Mensagem que irá aparecer para o jogador quando ele comprar um terreno
   Terreno_Criado: "&f➜ &cTerreno criado com sucesso!"
@@ -68,16 +99,25 @@ Mensagens:
   #terreno perto de onde ele estiver querendo comprar
   Terreno_Perto: "&f➜ &cVocê não pode construir seu terreno aqui pois existe outro terreno próximo de você!"
 
-  #Mensagem que irá aparecer caso o jogador já possua algum terreno
-  Ja_Tem_Terreno: "&f➜ &cVocê já tem um terreno, use '/terreno tp' para ir até seu terreno!"
-
   #Mensagem que irá aparecer caso o jogador não tiver o
   #dinheiro necessário para upar/comprar um terreno.
   Sem_Dinheiro: "&f➜ &cVocê precisa de %m reais para comprar/upar seu terreno!"
 
+  #Mensagem que irá aparecer quando um jogador
+  #digitar um comando de terreno fora do seu terreno
+  Precisa_Estar_Terreno: "&f➜ &cVocê precisa estar no seu terreno para fazer isso!"
+
+  #Mensagem que irá aparecer quando algum moderador
+  #tentar deletar algum terreno sem estar em um terreno
+  Sem_Terreno_Deletar: "&f➜ &cAqui não tem terreno para deletar!"
+
   #Mensagem que irá aparecer quando algum jogador
   #executar o comando de criar/upgrade terreno fora do mundo de terrenos
   Mundo_Invalido: "&f➜ &cVocê não pode fazer isso nesse mundo!"
+
+  #Mensagem que irá aparecer quando algum jogador
+  #não tiver um terreno para teleportar
+  Sem_Terreno_TP: "&f➜ &cVocê não tem esse terreno para teleportar!"
 
   #Mensagem que irá aparecer quando algum jogador
   #quebrar um bloco em um terreno onde ele não tem permissão
@@ -143,7 +183,7 @@ Mensagens:
   #algum comando que precisa ter terreno para ser executado
   Nao_Tem_Terreno: "&f➜ &cVocê não tem terreno para fazer isso!"
 
-  Player_Sem_Terreno: "&f➜ &cO jogador %p não tem terreno!"
+  Player_Sem_Terreno: "&f➜ &cO jogador %p não tem esse terreno!"
 
   #Mensagem que enviará para o jogador quando ele
   #estiver de fly fora do seu terreno

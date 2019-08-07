@@ -36,7 +36,7 @@ public class EntrouTerreno implements Listener {
 
         HouseEntity houseTo = Utilidades.getHomeLocation(e.getTo().toVector());
 
-        if (houseTo != null) {
+        if (houseTo != null && !houseTo.getDono().equalsIgnoreCase("spawn-protect")) {
             Vector toMax = new Vector(houseTo.getPositionMax().getBlockX() + 1,
                     houseTo.getPositionMax().getBlockY(), houseTo.getPositionMax().getBlockZ() + 1);
 
@@ -55,7 +55,7 @@ public class EntrouTerreno implements Listener {
 
         HouseEntity houseFrom = Utilidades.getHomeLocation(e.getFrom().toVector());
 
-        if (houseFrom != null) {
+        if (houseFrom != null && !houseFrom.getDono().equalsIgnoreCase("spawn-protect")) {
             Vector fromMax = new Vector(houseFrom.getPositionMax().getBlockX() + 1,
                     houseFrom.getPositionMax().getBlockY(), houseFrom.getPositionMax().getBlockZ() + 1);
 

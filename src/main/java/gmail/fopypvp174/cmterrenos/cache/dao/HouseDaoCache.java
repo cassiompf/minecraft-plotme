@@ -1,5 +1,7 @@
 package gmail.fopypvp174.cmterrenos.cache.dao;
 
+import gmail.fopypvp174.cmterrenos.api.Utilidades;
+import gmail.fopypvp174.cmterrenos.database.dao.DatabaseDAO;
 import gmail.fopypvp174.cmterrenos.entities.HouseEntity;
 import org.bukkit.util.Vector;
 
@@ -9,25 +11,32 @@ public class HouseDaoCache implements HouseDAO {
 
     private Map<String, HouseEntity> houses;
 
-    public HouseDaoCache() {
+    public HouseDaoCache(DatabaseDAO houses) {
         this.houses = new HashMap<>();
+        new Thread(() ->
+                houses.getTerrains().forEach(target -> setTerrain(target))
+        ).start();
     }
 
     @Override
     public void setTerrain(HouseEntity houseEntity) {
-        houses.put(houseEntity.getDono(), houseEntity);
-    }
-
-    public void init(Set<HouseEntity> houses) {
-        houses.forEach(target -> this.houses.put(target.getDono(), target));
+        houses.put(houseEntity.getDono() + "#" + houseEntity.getHome(), houseEntity);
     }
 
     @Override
-    public HouseEntity getHouse(String player) {
-        if (hasTerreno(player)) {
-            return houses.get(player);
-        }
-        return null;
+    public HouseEntity getHouseLoc(Vector vector) {
+        HouseEntity house = Utilidades.getHomeLocation(vector);
+        return house;
+    }
+
+    @Override
+    public HouseEntity getHouseHome(String player, Integer home) {
+        return houses.get(player + "#" + home);
+    }
+
+    @Override
+    public long amountTerrain(String playerName) {
+        return getAllHouses().stream().filter(target -> target.getDono().equals(playerName)).count();
     }
 
     @Override
@@ -37,7 +46,7 @@ public class HouseDaoCache implements HouseDAO {
 
     @Override
     public boolean hasTerreno(String owner) {
-        return houses.containsKey(owner);
+        return getAllHouses().stream().filter(target -> target.getDono().equals(owner)).count() > 0;
     }
 
     @Override
@@ -49,15 +58,7 @@ public class HouseDaoCache implements HouseDAO {
     }
 
     @Override
-    public Integer getNivelTerreno(String playerName) {
-        if (hasTerreno(playerName)) {
-            return houses.get(playerName).getNivelTerreno();
-        }
-        return null;
-    }
-
-    @Override
-    public Set<String> getAllFriends(String owner) {
+    public List<String> getAllFriends(String owner) {
         if (hasTerreno(owner)) {
             return houses.get(owner).getFriends();
         }
@@ -76,10 +77,10 @@ public class HouseDaoCache implements HouseDAO {
 
     @Override
     public boolean addFriend(String owner, String friend) {
-        Set<String> friends = getAllFriends(owner);
+        List<String> friends = getAllFriends(owner);
 
         if (friends == null) {
-            friends = new HashSet<>(Arrays.asList(
+            friends = new ArrayList<>(Arrays.asList(
                     friend
             ));
             houses.get(owner).setFriends(friends);
@@ -130,7 +131,7 @@ public class HouseDaoCache implements HouseDAO {
     }
 
     @Override
-    public HouseEntity removeTerrain(String playerHouse) {
-        return houses.remove(playerHouse);
+    public HouseEntity removeTerrain(HouseEntity house) {
+        return houses.remove(house.getDono() + "#" + house.getHome());
     }
 }

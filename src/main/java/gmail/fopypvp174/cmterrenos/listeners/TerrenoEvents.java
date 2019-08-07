@@ -32,6 +32,15 @@ public class TerrenoEvents implements Listener {
             return;
         }
 
+        if (player.hasPermission("terreno.placeblock") || player.hasPermission("terrenos.admin")) {
+            return;
+        }
+
+        if (house.getDono().equals("spawn-protect")) {
+            e.setCancelled(true);
+            return;
+        }
+
         if (house.getFriends() != null) {
             if (house.getFriends().contains(player.getName())) {
                 return;
@@ -39,10 +48,6 @@ public class TerrenoEvents implements Listener {
         }
 
         if (house.getDono().equals(player.getName())) {
-            return;
-        }
-
-        if (player.hasPermission("terreno.placeblock")) {
             return;
         }
 
@@ -67,6 +72,15 @@ public class TerrenoEvents implements Listener {
             return;
         }
 
+        if (player.hasPermission("terreno.breakblock") || player.hasPermission("terrenos.admin")) {
+            return;
+        }
+
+        if (house.getDono().equals("spawn-protect")) {
+            e.setCancelled(true);
+            return;
+        }
+
         if (house.getFriends() != null) {
             if (house.getFriends().contains(player.getName())) {
                 return;
@@ -74,10 +88,6 @@ public class TerrenoEvents implements Listener {
         }
 
         if (house.getDono().equals(player.getName())) {
-            return;
-        }
-
-        if (player.hasPermission("terreno.breakblock")) {
             return;
         }
 
@@ -107,6 +117,15 @@ public class TerrenoEvents implements Listener {
             return;
         }
 
+        if (player.hasPermission("terreno.interact") || player.hasPermission("terrenos.admin")) {
+            return;
+        }
+
+        if (house.getDono().equals("spawn-protect")) {
+            e.setCancelled(false);
+            return;
+        }
+
         if (house.getFriends() != null) {
             if (house.getFriends().contains(player.getName())) {
                 return;
@@ -117,9 +136,6 @@ public class TerrenoEvents implements Listener {
             return;
         }
 
-        if (player.hasPermission("terreno.interact")) {
-            return;
-        }
         player.sendMessage(plugin.getFileConfig().getMessage("Nao_Pode_Interagir").replace("%p", house.getDono()));
 
         e.setCancelled(true);

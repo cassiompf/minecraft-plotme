@@ -4,6 +4,7 @@ import gmail.fopypvp174.cmterrenos.CmTerrenos;
 import gmail.fopypvp174.cmterrenos.api.Utilidades;
 import gmail.fopypvp174.cmterrenos.database.dao.DatabaseDAO;
 import gmail.fopypvp174.cmterrenos.entities.HouseEntity;
+import gmail.fopypvp174.cmterrenos.entities.MysqlEntity;
 import gmail.fopypvp174.cmterrenos.yaml.Config;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DBDaoYAML extends Config implements DatabaseDAO {
+
 
     public DBDaoYAML(CmTerrenos plugin, String fileName) {
         super(plugin, fileName);
@@ -68,7 +70,7 @@ public class DBDaoYAML extends Config implements DatabaseDAO {
     }
 
     @Override
-    public void startTerrains() {
+    public Set<HouseEntity> getTerrains() {
         Set<HouseEntity> houses = new HashSet<>();
         if (getCustomConfig().isConfigurationSection("terrenos")) {
             for (String name : getCustomConfig().getConfigurationSection("terrenos").getKeys(false)) {
@@ -102,10 +104,7 @@ public class DBDaoYAML extends Config implements DatabaseDAO {
                 houses.add(house);
             }
         }
-
-        new Thread(() -> getPlugin().getHouseCache().init(houses)).start();
-
-        getPlugin().getLogger().info("Dados carregados com sucesso!");
+        return houses;
     }
 
 }

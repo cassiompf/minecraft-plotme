@@ -2,7 +2,9 @@ package gmail.fopypvp174.cmterrenos.commands.subcommands;
 
 import gmail.fopypvp174.cmterrenos.CmTerrenos;
 import gmail.fopypvp174.cmterrenos.entities.HouseEntity;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CmdDelete extends SubCommand {
 
@@ -12,23 +14,38 @@ public class CmdDelete extends SubCommand {
 
     @Override
     public void onCommand(CommandSender sender, String[] args) {
+
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Somente_Jogador"));
+            return;
+        }
+
         if (!sender.hasPermission("terreno.delete")) {
-            sender.sendMessage(getCmTerrenos().getFileConfig().getMessage("Perm_Staff"));
+            sender.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Perm_Staff"));
             return;
         }
 
-        if (args.length != 1) {
-            sender.sendMessage(getCmTerrenos().getFileConfig().getMessage("Comando_Desconhecido"));
+
+        if (args.length > 0) {
+            sender.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Comando_Desconhecido"));
             return;
         }
 
-        HouseEntity house = getCmTerrenos().getHouseCache().getHouse(args[0]);
+        Player player = Bukkit.getPlayer(sender.getName());
+
+        HouseEntity house = getCmTerrenos().getHouseCache()
+                .getHouseLoc(player.getLocation().toVector());
+
         if (house == null) {
-            sender.sendMessage(getCmTerrenos().getFileConfig().getMessage("Player_Sem_Terreno").replace("%p", args[1]));
+            sender.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Sem_Terreno_Deletar"));
             return;
         }
 
-        getCmTerrenos().getHouseCache().removeTerrain(house.getDono());
+        getCmTerrenos().getHouseCache().removeTerrain(house);
         new Thread(() -> getCmTerrenos().getDatabaseDAO().deleteTerrain(house)).start();
     }
 

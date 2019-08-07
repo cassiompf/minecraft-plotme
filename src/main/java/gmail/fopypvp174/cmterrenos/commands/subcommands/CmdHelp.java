@@ -13,8 +13,14 @@ public class CmdHelp extends SubCommand {
     @Override
     public void onCommand(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
-            String msg = getCmTerrenos().getFileConfig().getMessageList("Comando_Help");
+            String msg = getCmTerrenos().getFileConfig()
+                    .getMessageList("Comando_Help");
             sender.sendMessage(msg);
+            if (sender.hasPermission("terrenos.admin")) {
+                msg = getCmTerrenos().getFileConfig()
+                        .getMessageList("Comando_Help_Admin");
+                sender.sendMessage(msg);
+            }
         }
     }
 

@@ -1,7 +1,6 @@
 package gmail.fopypvp174.cmterrenos.commands.subcommands;
 
 import gmail.fopypvp174.cmterrenos.CmTerrenos;
-import gmail.fopypvp174.cmterrenos.api.ItemBuilder;
 import gmail.fopypvp174.cmterrenos.api.Utilidades;
 import gmail.fopypvp174.cmterrenos.entities.HouseEntity;
 import org.bukkit.Bukkit;
@@ -20,44 +19,57 @@ public class CmdUpgrade extends SubCommand {
     @Override
     public void onCommand(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(super.getCmTerrenos().getFileConfig().getMessage("Somente_Jogador"));
+            sender.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Somente_Jogador"));
             return;
         }
         Player player = Bukkit.getPlayer(sender.getName());
 
-        if (!super.getCmTerrenos().getHouseCache().hasTerreno(player.getName())) {
-            player.sendMessage(super.getCmTerrenos().getFileConfig().getMessage("Nao_Tem_Terreno"));
+        if (!getCmTerrenos().getHouseCache().hasTerreno(player.getName())) {
+            player.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Nao_Tem_Terreno"));
             return;
         }
 
-        int nivelTerreno = super.getCmTerrenos().getHouseCache().getNivelTerreno(player.getName());
+        HouseEntity house = getCmTerrenos().getHouseCache()
+                .getHouseLoc(player.getLocation().toVector());
 
-        if (nivelTerreno == 10) {
-            player.sendMessage(super.getCmTerrenos().getFileConfig().getMessage("Terreno_Nivel_Maximo"));
+        if (house == null) {
+            player.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Precisa_Estar_Terreno"));
             return;
         }
 
-        Integer priceUpgrade = getCmTerrenos().getFileConfig().getPrecoNivel(nivelTerreno + 1);
+        if (house.getNivelTerreno() == 10) {
+            player.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Terreno_Nivel_Maximo"));
+            return;
+        }
+
+        int priceUpgrade = getCmTerrenos().getFileConfig()
+                .getPrecoNivel(house.getNivelTerreno() + 1);
         double playerMoney = getCmTerrenos().getEcon().getBalance(player);
 
         if (playerMoney < priceUpgrade) {
-            player.sendMessage(super.getCmTerrenos().getFileConfig().getMessage("Sem_Dinheiro").replace("%m", String.valueOf(priceUpgrade)));
+            player.sendMessage(getCmTerrenos().getFileConfig()
+                    .getMessage("Sem_Dinheiro")
+                    .replace("%m", String.valueOf(priceUpgrade)));
             return;
         }
 
-        HouseEntity house = super.getCmTerrenos().getHouseCache().getHouse(player.getName());
-
-        Vector[] position = Utilidades.calculePosition(house.getUpgradeMin(), nivelTerreno + 1);
+        Vector[] position = Utilidades.calculePosition(house.getUpgradeMin()
+                , house.getNivelTerreno() + 1);
         house.setPositionMin(position[0]);
         house.setPositionMax(position[1]);
-        house.setNivelTerreno(nivelTerreno + 1);
+        house.setNivelTerreno(house.getNivelTerreno() + 1);
 
         getCmTerrenos().getEcon().withdrawPlayer(player, priceUpgrade);
 
-        ItemStack itemStack = ItemBuilder.create(Material.FENCE, (byte) 14);
-        Utilidades.setBlockAroundHome(house, itemStack);
-
-        player.sendMessage(super.getCmTerrenos().getFileConfig().getMessage("Terreno_Upado").replace("%m", String.valueOf(priceUpgrade)).replace("%i", String.valueOf(nivelTerreno + 1)));
+        Utilidades.setBlockAroundHome(house, new ItemStack(Material.FENCE));
+        player.sendMessage(getCmTerrenos().getFileConfig()
+                .getMessage("Terreno_Upado")
+                .replace("%m", String.valueOf(priceUpgrade))
+                .replace("%i", String.valueOf(house.getNivelTerreno() + 1)));
     }
 
     @Override

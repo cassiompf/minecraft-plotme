@@ -80,7 +80,7 @@ public class DBDaoJDBC extends DBConnector implements DatabaseDAO {
     }
 
     @Override
-    public void startTerrains() {
+    public Set<HouseEntity> getTerrains() {
         Set<HouseEntity> houses = new HashSet<>();
         try (Connection conn = getConnection();
              Statement statement = conn.createStatement();
@@ -105,7 +105,7 @@ public class DBDaoJDBC extends DBConnector implements DatabaseDAO {
         } catch (SQLException e) {
             getPlugin().getLogger().info("Erro: " + e.getMessage() + " Método: startTerrains()");
         }
-        getPlugin().getHouseCache().init(houses);
         getPlugin().getLogger().info("Dados carregados com sucesso!");
+        return houses;
     }
 }
